@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { YoutubeLoader } from 'langchain/document_loaders/web/youtube';
+import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 
 @Injectable()
 export class AppService {
@@ -12,7 +13,12 @@ export class AppService {
 
     const docs = await loader.load();
 
-    console.log(docs);
+    const splitter = new RecursiveCharacterTextSplitter();
+    const splittedDocs = await splitter.splitDocuments(docs);
+
+    console.log(docs[0].pageContent.length);
+    console.log(splittedDocs.length);
+    console.log(splittedDocs[0].pageContent.length);
 
     return 'Hello World!';
   }
