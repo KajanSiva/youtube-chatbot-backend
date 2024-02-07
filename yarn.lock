@@ -723,7 +723,7 @@
     uuid "^9.0.0"
     zod "^3.22.3"
 
-"@langchain/core@~0.1.13", "@langchain/core@~0.1.16", "@langchain/core@~0.1.24":
+"@langchain/core@^0.1.24", "@langchain/core@~0.1.13", "@langchain/core@~0.1.16", "@langchain/core@~0.1.24":
   version "0.1.24"
   resolved "https://registry.yarnpkg.com/@langchain/core/-/core-0.1.24.tgz#e029a5641147ef0d9219750704e9f2c5d9b01aa3"
   integrity sha512-MBsBMses4/6zUetPzZaw9FyRqCebvB+jqaZE+VNDK37wzW+W4hssxat6gyfFbqegOw2VUG64yy57velLbe8fCw==

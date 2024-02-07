@@ -2,8 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { YoutubeLoader } from 'langchain/document_loaders/web/youtube';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
-import { OpenAIEmbeddings } from '@langchain/openai';
+import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai';
 import { MemoryVectorStore } from 'langchain/vectorstores/memory';
+import { createStuffDocumentsChain } from 'langchain/chains/combine_documents';
+import { createRetrievalChain } from 'langchain/chains/retrieval';
+import { ChatPromptTemplate } from '@langchain/core/prompts';
 
 @Injectable()
 export class AppService {
@@ -34,6 +37,35 @@ export class AppService {
       splittedDocs,
       embeddings,
     );
+
+    const chatModel = new ChatOpenAI({ openAIApiKey });
+
+    const prompt =
+      ChatPromptTemplate.fromTemplate(`Answer the following question based only on the provided context:
+
+    <context>
+    {context}
+    </context>
+    
+    Question: {input}`);
+
+    const documentChain = await createStuffDocumentsChain({
+      llm: chatModel,
+      prompt,
+    });
+
+    const retriever = vectorStore.asRetriever();
+
+    const retrievalChain = await createRetrievalChain({
+      combineDocsChain: documentChain,
+      retriever,
+    });
+
+    const question = 'Résume-moi les points les plus importants.';
+
+    const result = await retrievalChain.invoke({ input: question });
+
+    console.log(result.answer);
 
     return 'Hello World!';
   }
