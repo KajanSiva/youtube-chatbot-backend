@@ -1,14 +1,18 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ProcessYoutubeVideoDTO } from './dto/process-youtube-video.dto';
+import { VideoConversationDTO } from './dto/video-conversation.dto';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  async getHello(): Promise<string> {
-    return this.appService.getHello();
+  @Post('/video/:id/conversation')
+  async videoConversation(
+    @Param('id') id: string,
+    @Body() body: VideoConversationDTO,
+  ): Promise<string> {
+    return this.appService.videoConversation(id, body.message);
   }
 
   @Post('/process-youtube-video')

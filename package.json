@@ -20,7 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@langchain/core": "^0.1.24",
+    "@langchain/core": "~0.1.32",
     "@langchain/openai": "^0.0.14",
     "@langchain/pinecone": "^0.0.3",
     "@nestjs/common": "^10.0.0",
